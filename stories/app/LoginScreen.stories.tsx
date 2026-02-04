@@ -13,3 +13,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const Error: Story = {
+  args: {
+    error: 'Invalid email or password',
+  },
+};
+

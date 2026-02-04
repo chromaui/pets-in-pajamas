@@ -4,7 +4,11 @@ import { StyleSheet, View, TextInput, Button } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
-export default function LoginScreen() {
+type LoginScreenProps = {
+  error?: string;
+}
+
+export default function LoginScreen(props: LoginScreenProps) {
   return (
     <ThemedView style={styles.container}>
       <ThemedText style={styles.header} type="title">Pets In Pajamas</ThemedText>
@@ -23,6 +27,7 @@ export default function LoginScreen() {
       <Link href="/" dismissTo style={styles.link}>
         <ThemedText type="link">Sign Up</ThemedText>
       </Link>
+      { props.error && <ThemedText style={styles.error}>{props.error}</ThemedText>}
     </ThemedView>
   );
 }
@@ -54,6 +59,16 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 15,
     width: '80%',
+  },
+  error: {
+    color: 'white',
+    backgroundColor: 'red',
+    marginBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 10,
   }
 });
 
