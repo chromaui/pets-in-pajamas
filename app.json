@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "pets-in-pyjamas",
-    "slug": "pets-in-pyjamas",
+    "name": "pets-in-pajamas",
+    "slug": "pets-in-pajamas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "petsinpyjamas",
+    "scheme": "petsinpajamas",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "org.velvetcache.petsinpyjamas"
+      "bundleIdentifier": "com.chromatic.pets-in-pajamas"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "org.velvetcache.petsinpyjamas"
+      "package": "com.chromatic.pets-in-pajamas"
     },
     "web": {
       "output": "static",

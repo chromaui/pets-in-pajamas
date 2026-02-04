@@ -7,7 +7,7 @@ import { ThemedView } from '@/components/themed-view';
 export default function LoginScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText style={styles.header} type="title">Pets In Pyjamas</ThemedText>
+      <ThemedText style={styles.header} type="title">Pets In Pajamas</ThemedText>
       <TextInput placeholder="Email" style={styles.input} />
         <TextInput
           style={styles.input} 
