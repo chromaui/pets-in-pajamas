@@ -1,4 +1,4 @@
-# Pets In Pyjamas
+# Pets In Pajamas
 
 A React Native demo application.
 
