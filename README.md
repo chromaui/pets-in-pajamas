@@ -1,6 +1,8 @@
 # Pets In Pajamas
 
-A React Native demo application.
+![The pets in pajamas app, showing a feed view of photos with pets wearing pajamas](.github/readme/screenshot.jpg)
+
+A demo application for React Native Storybook.
 
 ## Storybook
 
