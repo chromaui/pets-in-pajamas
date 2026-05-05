@@ -1,98 +1,172 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { mockPosts } from '@/data/mock';
+import { useThemeColor } from '@/hooks/use-theme-color';
+import { Post } from '@/types';
 
-export default function HomeScreen() {
+interface FeedScreenProps {
+  posts?: Post[];
+}
+
+function PostCard({ post }: { post: Post }) {
+  const borderColor = useThemeColor({}, 'icon');
+  const iconColor = useThemeColor({}, 'icon');
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
+    <ThemedView style={styles.card}>
+      <View style={styles.cardHeader}>
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+          source={post.author.avatar}
+          style={[styles.avatar, { borderColor }]}
+          contentFit="cover"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+        <View style={styles.cardHeaderText}>
+          <ThemedText type="defaultSemiBold">{post.author.username}</ThemedText>
+        </View>
+        <ThemedText style={[styles.moreButton, { color: iconColor }]}>•••</ThemedText>
+      </View>
 
+      <Image source={post.image} style={styles.postImage} contentFit="cover" />
+
+      <View style={styles.cardActions}>
+        <View style={styles.cardActionsLeft}>
+          <IconSymbol name="heart" size={24} color={iconColor} />
+          <IconSymbol name="bubble.left" size={24} color={iconColor} />
+          <IconSymbol name="square.and.arrow.up" size={24} color={iconColor} />
+        </View>
+        <IconSymbol name="bookmark" size={24} color={iconColor} />
+      </View>
+
+      <View style={styles.cardBody}>
+        <ThemedText type="defaultSemiBold">
+          {post.likeCount.toLocaleString()} likes
+        </ThemedText>
         <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
+          <ThemedText type="defaultSemiBold">{post.author.username} </ThemedText>
+          {post.caption}
+        </ThemedText>
+        {post.commentCount > 0 && (
+          <ThemedText style={styles.viewComments}>
+            View all {post.commentCount} comments
+          </ThemedText>
+        )}
+        <ThemedText style={styles.timestamp}>
+          {formatRelativeTime(post.postedAt)}
+        </ThemedText>
+      </View>
+    </ThemedView>
+  );
+}
+
+function formatRelativeTime(isoString: string): string {
+  const seconds = Math.floor((Date.now() - new Date(isoString).getTime()) / 1000);
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+  return `${Math.floor(seconds / 86400)}d ago`;
+}
+
+export default function FeedScreen({ posts = mockPosts }: FeedScreenProps) {
+  const { top } = useSafeAreaInsets();
+
+  if (posts.length === 0) {
+    return (
+      <ThemedView style={styles.emptyContainer}>
+        <ThemedText type="title" style={styles.emptyIcon}>🐾</ThemedText>
+        <ThemedText type="subtitle">No posts yet</ThemedText>
+        <ThemedText style={styles.emptySubtext}>
+          Follow some pets to see their posts here.
         </ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    );
+  }
+
+  return (
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ paddingTop: top }}
+      showsVerticalScrollIndicator={false}>
+      {posts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
   },
-  stepContainer: {
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: 8,
+    padding: 32,
+  },
+  emptyIcon: {
+    fontSize: 48,
+    lineHeight: 60,
+  },
+  emptySubtext: {
+    textAlign: 'center',
+    opacity: 0.6,
+    marginTop: 4,
+  },
+  card: {
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    gap: 10,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1,
+  },
+  cardHeaderText: {
+    flex: 1,
+  },
+  moreButton: {
+    fontSize: 18,
+    letterSpacing: 2,
+  },
+  postImage: {
+    width: '100%',
+    aspectRatio: 1,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  cardActionsLeft: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  cardBody: {
+    paddingHorizontal: 12,
+    paddingBottom: 12,
+    gap: 4,
+  },
+  viewComments: {
+    opacity: 0.5,
+    marginTop: 2,
+  },
+  timestamp: {
+    fontSize: 11,
+    opacity: 0.4,
+    marginTop: 2,
+    textTransform: 'uppercase',
   },
 });
