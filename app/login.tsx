@@ -1,16 +1,21 @@
+import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { StyleSheet, View, TextInput, Button } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useThemeColor } from '@/hooks/use-theme-color';
 
 type LoginScreenProps = {
   error?: string;
 }
 
 export default function LoginScreen(props: LoginScreenProps) {
+  const buttonBackground = useThemeColor({}, 'tint');
+
   return (
     <ThemedView style={styles.container}>
+      <Image source={require('@/assets/images/ppjslogo.png')} style={styles.logo} contentFit="contain" />
       <ThemedText style={styles.header} type="title">Pets In Pajamas</ThemedText>
       <TextInput placeholder="Email" style={styles.input} />
         <TextInput
@@ -18,12 +23,13 @@ export default function LoginScreen(props: LoginScreenProps) {
           secureTextEntry={true}
           placeholder="Password"
         />
-      <View style={styles.button} >
-        <Button
-          title="Login"
-          onPress={() => {}}
-        />
-      </View>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: buttonBackground }]}
+        onPress={() => {}}>
+        <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#000">
+          Login
+        </ThemedText>
+      </TouchableOpacity>
       <Link href="/" dismissTo style={styles.link}>
         <ThemedText type="link">Sign Up</ThemedText>
       </Link>
@@ -38,6 +44,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 12,
   },
   header: {
     marginBottom: 20,
@@ -58,7 +69,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 15,
-    width: '80%',
+    width: '100%',
+    borderRadius: 10,
+    paddingVertical: 14,
+    alignItems: 'center',
   },
   error: {
     color: 'white',
