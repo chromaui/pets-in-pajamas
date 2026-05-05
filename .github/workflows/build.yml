@@ -1,0 +1,201 @@
+name: Build
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Cache CocoaPods spec repo
+        uses: actions/cache@v5
+        with:
+          path: ~/.cocoapods
+          key: cocoapods-specs-${{ hashFiles('package.json', 'app.json') }}
+          restore-keys: |
+            cocoapods-specs-
+
+      - name: Cache Pods directory
+        uses: actions/cache@v5
+        with:
+          path: ios/Pods
+          key: ios-pods-${{ hashFiles('package.json', 'app.json') }}
+          restore-keys: |
+            ios-pods-
+
+      - name: Build iOS
+        run: npx --yes chromatic@16.7.1--canary.1318.25345838903.0 react-native-build --platform=ios --output-dir=build
+
+      - name: Upload iOS build
+        uses: actions/upload-artifact@v7
+        with:
+          name: ios-build
+          path: build/
+          retention-days: 1
+
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v5
+        with:
+          path: ~/.gradle/wrapper
+          key: gradle-wrapper-${{ hashFiles('package.json', 'app.json') }}
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.gradle/caches
+          key: gradle-caches-${{ hashFiles('package.json', 'app.json') }}
+          restore-keys: |
+            gradle-caches-
+
+      - name: Cache Android directory
+        uses: actions/cache@v5
+        with:
+          path: android/
+          key: android-dir-${{ hashFiles('package.json', 'app.json') }}
+          restore-keys: |
+            android-dir-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Android
+        run: npx --yes chromatic@16.7.1--canary.1318.25345838903.0 react-native-build --platform=android --output-dir=build
+
+      - name: Upload Android build
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-build
+          path: build/
+          retention-days: 1
+
+  chromatic:
+    needs: [build-ios, build-android]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download iOS build
+        uses: actions/download-artifact@v8
+        with:
+          name: ios-build
+          path: build/ios
+
+      - name: Download Android build
+        uses: actions/download-artifact@v8
+        with:
+          name: android-build
+          path: build/android
+
+      - name: Move Storybook static files
+        run: |
+          mkdir -p storybook-static
+          mv build/ios/storybook.app storybook-static/
+          mv build/android/storybook.apk storybook-static/
+
+      - name: Publish to Chromatic
+        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+      - name: Upload Chromatic manifest
+        uses: actions/upload-artifact@v7
+        with:
+          name: chromatic-manifest
+          path: storybook-static/manifest.json
+          retention-days: 1
+
+  create-release:
+    needs: [build-ios, build-android, chromatic]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Get release tag
+        id: tag
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TIMESTAMP=$(date +%Y%m%d%H%M)
+          echo "value=v${VERSION}-${TIMESTAMP}" >> $GITHUB_OUTPUT
+
+      - name: Download iOS build
+        uses: actions/download-artifact@v8
+        with:
+          name: ios-build
+          path: artifacts/ios
+
+      - name: Download Android build
+        uses: actions/download-artifact@v8
+        with:
+          name: android-build
+          path: artifacts/android
+
+      - name: Download Chromatic manifest
+        uses: actions/download-artifact@v8
+        with:
+          name: chromatic-manifest
+          path: artifacts
+
+      - name: Create release zip
+        run: zip -r release.zip artifacts/
+
+      - name: Create GitHub release
+        run: |
+          gh release create ${{ steps.tag.outputs.value }} \
+            release.zip \
+            --title "${{ steps.tag.outputs.value }}" \
+            --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
