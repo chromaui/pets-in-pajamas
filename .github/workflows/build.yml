@@ -143,7 +143,7 @@ jobs:
         run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91
         
         env:
-          CHROMATIC_INDEX_URL: https://index.staging-chromatic.com
+          CHROMATIC_INDEX_URL: https://chromatic-www-pr-11442.herokuapp.com/
 
       - name: Upload Chromatic manifest
         uses: actions/upload-artifact@v7
