@@ -31,3 +31,7 @@ export const SemiBold: Story = {
 export const Link: Story = {
   args: { type: 'link', children: 'See all comments' },
 };
+
+export const Subtitle2: Story = {
+  args: { type: 'subtitle', children: 'Following' },
+};
