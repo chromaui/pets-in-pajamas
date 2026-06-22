@@ -136,8 +136,8 @@ jobs:
       - name: Move Storybook static files
         run: |
           mkdir -p storybook-static
-          mv build/ios/storybook.app storybook-static/
-          mv build/android/storybook.apk storybook-static/
+          cp -r build/ios/. storybook-static/
+          cp -r build/android/. storybook-static/
 
       - name: Publish to Chromatic
         run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91
