@@ -121,6 +121,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build web Storybook
+        run: npx storybook build
+
       - name: Download iOS build
         uses: actions/download-artifact@v8
         with:
