@@ -146,7 +146,11 @@ jobs:
         run: npx --yes chromatic@latest generate-manifest -o storybook-static
 
       - name: Publish to Chromatic
-        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors
+        uses: nick-invision/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
