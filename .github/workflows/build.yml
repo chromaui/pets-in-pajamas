@@ -146,13 +146,10 @@ jobs:
         run: npx --yes chromatic@latest generate-manifest -o storybook-static
 
       - name: Publish to Chromatic
-        uses: nick-invision/retry@v3
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors
+        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91
+        
         env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
       - name: Upload Chromatic manifest
         uses: actions/upload-artifact@v7
