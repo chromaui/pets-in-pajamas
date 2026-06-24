@@ -146,7 +146,8 @@ jobs:
         run: npx --yes chromatic@latest generate-manifest -o storybook-static
 
       - name: Publish to Chromatic
-        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91      
+        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91
+        
         env:
           CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
