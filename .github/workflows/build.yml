@@ -45,7 +45,7 @@ jobs:
             ios-pods-
 
       - name: Build iOS
-        run: npx --yes chromatic@16.7.1--canary.1318.25345838903.0 react-native-build --platform=ios --output-dir=build
+        run: EXPO_PUBLIC_STORYBOOK_ENABLED=true npx --yes chromatic@latest react-native-build --platform=ios --output-dir=build
 
       - name: Upload iOS build
         uses: actions/upload-artifact@v7
@@ -94,7 +94,7 @@ jobs:
         run: npm install
 
       - name: Build Android
-        run: npx --yes chromatic@16.7.1--canary.1318.25345838903.0 react-native-build --platform=android --output-dir=build
+        run: EXPO_PUBLIC_STORYBOOK_ENABLED=true npx --yes chromatic@latest react-native-build --platform=android --output-dir=build
 
       - name: Upload Android build
         uses: actions/upload-artifact@v7
