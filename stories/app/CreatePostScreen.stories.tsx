@@ -15,6 +15,6 @@ export const Default: Story = {};
 
 export const WithCaption: Story = {
   args: {
-    caption: 'Luna discovered pajamas and honestly... same 😴🐾',
+    caption: 'Luna discovered pajamas and she is never taking them off 🐾✨',
   },
 };
