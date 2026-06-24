@@ -6,7 +6,7 @@ const StorybookUIRoot = view.getStorybookUI({
     getItem: AsyncStorage.getItem,
     setItem: AsyncStorage.setItem,
   },
-  enableWebsockets: process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === 'true',
+  enableWebsockets: true,
   host: process.env.EXPO_PUBLIC_STORYBOOK_WEBSOCKET_HOST || 'localhost',
   port: parseInt(process.env.EXPO_PUBLIC_STORYBOOK_WEBSOCKET_PORT || '7007', 10),
   secured: process.env.EXPO_PUBLIC_STORYBOOK_WEBSOCKET_SECURED === 'true',
