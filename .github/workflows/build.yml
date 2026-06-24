@@ -48,7 +48,7 @@ jobs:
         run: npm install
 
       - name: Build Android
-        run: EXPO_PUBLIC_STORYBOOK_ENABLED=true EXPO_PUBLIC_STORYBOOK_DISABLE_UI=true npx --yes chromatic@latest react-native-build --platform=android --output-dir=build
+        run: npx --yes chromatic@16.7.1--canary.1318.25345838903.0 react-native-build --platform=android --output-dir=build
 
       - name: Upload Android build
         uses: actions/upload-artifact@v7
