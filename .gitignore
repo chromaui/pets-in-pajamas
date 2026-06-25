@@ -44,3 +44,13 @@ app-example
 
 # Storybook build output
 storybook-static/
+
+# Yarn Berry
+.yarn/
+.yarnrc.yml
+.pnp.cjs
+.pnp.loader.mjs
+yarn.lock
+
+# Logs
+build-storybook.log
