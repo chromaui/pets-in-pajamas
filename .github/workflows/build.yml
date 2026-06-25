@@ -49,6 +49,8 @@ jobs:
 
       - name: Build Android
         run: npx --yes chromatic@16.7.1--canary.1318.25345838903.0 react-native-build --platform=android --output-dir=build
+        env:
+          CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
       - name: Upload Android build
         uses: actions/upload-artifact@v7
@@ -91,10 +93,11 @@ jobs:
 
       - name: Generate Storybook manifest
         run: npx --yes chromatic@latest generate-manifest -o storybook-static --platform android
+        env:
+          CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
       - name: Publish to Chromatic
         run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91
-        
         env:
           CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
