@@ -20,6 +20,6 @@ export const Empty: Story = {
 
 export const Default: Story = {
   args: {
-    posts: mockPosts.slice(0, 3),
+    posts: mockPosts.slice(0, 4),
   },
 };
