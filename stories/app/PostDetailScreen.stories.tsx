@@ -23,3 +23,9 @@ export const ManyComments: Story = {
     post: mockPosts[1],
   },
 };
+
+export const Comment: Story = {
+  args: {
+    post: mockPosts[0],
+  },
+};

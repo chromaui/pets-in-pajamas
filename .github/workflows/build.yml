@@ -97,7 +97,7 @@ jobs:
           CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
       - name: Publish to Chromatic
-        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91 --patch-build=mengqi/another-ui-review...mengqi/testing-browser-2
+        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91
         env:
           CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
