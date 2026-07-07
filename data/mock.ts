@@ -64,7 +64,7 @@ export const mockPosts: Post[] = [
   {
     id: 'post-1',
     image: require('@/assets/images/placeholders/bird.jpg'),
-    caption: 'Monday mood achieved. Do not disturb. 🐾',
+    caption: 'Monday mood achieved. Do not disturb. 🐾, pretty please',
     author: mockAuthors[0],
     likeCount: 842,
     commentCount: 23,
@@ -74,7 +74,7 @@ export const mockPosts: Post[] = [
   {
     id: 'post-2',
     image: require('@/assets/images/placeholders/frenchie2.jpg'),
-    caption: 'We found the pajama drawer and we are not leaving.',
+    caption: 'We found the pajama drawer and we are not leaving again.',
     author: mockAuthors[1],
     likeCount: 3104,
     commentCount: 87,
@@ -94,7 +94,7 @@ export const mockPosts: Post[] = [
   {
     id: 'post-4',
     image: require('@/assets/images/placeholders/cat3.jpg'),
-    caption: 'New pajamas just dropped. This is fine. 😴',
+    caption: 'New pajamas just dropped. This is fine. Haha',
     author: mockAuthors[3],
     likeCount: 1567,
     commentCount: 44,
@@ -114,7 +114,7 @@ export const mockPosts: Post[] = [
   {
     id: 'post-6',
     image: require('@/assets/images/placeholders/turtle.jpg'),
-    caption: 'Hot girl walk but make it 11pm and in pajamas.',
+    caption: 'Hot girl walk but make it 11pm and in pajamas. Maybe.',
     author: mockAuthors[1],
     likeCount: 4201,
     commentCount: 112,

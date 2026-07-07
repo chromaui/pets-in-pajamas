@@ -19,3 +19,9 @@ export const Error: Story = {
   },
 };
 
+export const WithPrefilled: Story = {
+  args: {
+    email: 'luna@petsinpajamas.com',
+  },
+};
+

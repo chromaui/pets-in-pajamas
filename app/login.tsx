@@ -8,16 +8,17 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 
 type LoginScreenProps = {
   error?: string;
+  email?: string;
 }
 
-export default function LoginScreen(props: LoginScreenProps) {
+export default function LoginScreen({ error, email }: LoginScreenProps) {
   const buttonBackground = useThemeColor({}, 'tint');
 
   return (
     <ThemedView style={styles.container}>
       <Image source={require('@/assets/images/ppjslogo.png')} style={styles.logo} contentFit="contain" />
       <ThemedText style={styles.header} type="title">Pets In Pajamas</ThemedText>
-      <TextInput placeholder="Email" style={styles.input} />
+      <TextInput placeholder="Email" defaultValue={email} style={styles.input} />
         <TextInput
           style={styles.input} 
           secureTextEntry={true}
@@ -33,7 +34,7 @@ export default function LoginScreen(props: LoginScreenProps) {
       <Link href="/" dismissTo style={styles.link}>
         <ThemedText type="link">Sign Up</ThemedText>
       </Link>
-      { props.error && <ThemedText style={styles.error}>{props.error}</ThemedText>}
+      { error && <ThemedText style={styles.error}>{error}</ThemedText>}
     </ThemedView>
   );
 }
