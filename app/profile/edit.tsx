@@ -29,7 +29,7 @@ function FormField({ label, defaultValue }: { label: string; defaultValue: strin
 
 export default function EditProfileScreen({ user = mockAuthors[0] }: EditProfileScreenProps) {
   const borderColor = useThemeColor({}, 'icon');
-  const buttonBackground = useThemeColor({}, 'tint');
+  const buttonBackground = useThemeColor({}, 'buttonBackground');
 
   return (
     <ThemedView style={styles.container}>

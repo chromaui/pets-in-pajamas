@@ -11,7 +11,7 @@ interface CreatePostScreenProps {
 export default function CreatePostScreen({ caption = '' }: CreatePostScreenProps) {
   const borderColor = useThemeColor({}, 'icon');
   const inputBackground = useThemeColor({ light: '#f5f5f5', dark: '#1e1e1e' }, 'background');
-  const buttonBackground = useThemeColor({}, 'tint');
+  const buttonBackground = useThemeColor({}, 'buttonBackground');
 
   return (
     <ThemedView style={styles.container}>
