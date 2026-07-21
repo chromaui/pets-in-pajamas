@@ -11,7 +11,7 @@ type LoginScreenProps = {
 }
 
 export default function LoginScreen(props: LoginScreenProps) {
-  const buttonBackground = useThemeColor({}, 'tint');
+  const buttonBackground = useThemeColor({}, 'buttonBackground');
 
   return (
     <ThemedView style={styles.container}>

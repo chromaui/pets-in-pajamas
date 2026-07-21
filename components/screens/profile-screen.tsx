@@ -33,7 +33,7 @@ export default function ProfileScreen({
 }: ProfileScreenProps) {
   const { top } = useSafeAreaInsets();
   const borderColor = useThemeColor({}, 'icon');
-  const buttonBackground = useThemeColor({}, 'tint');
+  const buttonBackground = useThemeColor({}, 'buttonBackground');
 
   const thumbnailSize = 124;
 
