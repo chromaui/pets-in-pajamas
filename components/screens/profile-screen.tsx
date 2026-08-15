@@ -1,4 +1,6 @@
+import { requestRecordingPermissionsAsync } from 'expo-audio';
 import { Image } from 'expo-image';
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -36,6 +38,11 @@ export default function ProfileScreen({
   const buttonBackground = useThemeColor({}, 'tint');
 
   const thumbnailSize = 124;
+
+  useEffect(() => {
+    // TEMPORARY: verifying the mic permission prompt fires on this build, remove after checking.
+    requestRecordingPermissionsAsync();
+  }, []);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingTop: top }} showsVerticalScrollIndicator={false}>

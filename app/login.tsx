@@ -1,3 +1,4 @@
+import { useAudioPlayer } from 'expo-audio';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
@@ -12,6 +13,7 @@ type LoginScreenProps = {
 
 export default function LoginScreen(props: LoginScreenProps) {
   const buttonBackground = useThemeColor({}, 'tint');
+  const barkPlayer = useAudioPlayer(require('@/assets/sounds/dog-bark.mp3'));
 
   return (
     <ThemedView style={styles.container}>
@@ -25,7 +27,10 @@ export default function LoginScreen(props: LoginScreenProps) {
         />
       <TouchableOpacity
         style={[styles.button, { backgroundColor: buttonBackground }]}
-        onPress={() => {}}>
+        onPress={() => {
+          barkPlayer.seekTo(0);
+          barkPlayer.play();
+        }}>
         <ThemedText type="defaultSemiBold" lightColor="#fff" darkColor="#000">
           Login
         </ThemedText>
