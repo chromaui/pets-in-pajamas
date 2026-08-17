@@ -15,7 +15,7 @@ export const Default: Story = {};
 
 export const Error: Story = {
   args: {
-    error: 'Invalid email or password',
+    error: 'Invalid email or password. Please try again.',
   },
 };
 

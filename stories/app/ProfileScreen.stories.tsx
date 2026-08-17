@@ -28,12 +28,3 @@ export const OtherUserProfile: Story = {
     isFollowing: false,
   },
 };
-
-export const EmptyProfile: Story = {
-  args: {
-    user: mockAuthors[2],
-    posts: [],
-    viewerRelationship: 'other',
-    isFollowing: false,
-  },
-};
