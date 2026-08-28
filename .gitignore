@@ -41,3 +41,11 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Yarn PnP
+.pnp.cjs
+.pnp.loader.mjs
+.yarn/install-state.gz
+
+# Storybook build output
+storybook-static/

@@ -1,3 +1,5 @@
+import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import type { Preview } from '@storybook/react-native-web-vite'
 
 const preview: Preview = {
@@ -9,6 +11,9 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => React.createElement(SafeAreaProvider, null, React.createElement(Story)),
+  ],
 };
 
 export default preview;

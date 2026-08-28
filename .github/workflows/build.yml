@@ -121,6 +121,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build web Storybook
+        run: npx storybook build
+
       - name: Download iOS build
         uses: actions/download-artifact@v8
         with:
@@ -139,10 +142,14 @@ jobs:
           mv build/ios/storybook.app storybook-static/
           mv build/android/storybook.apk storybook-static/
 
+      - name: Generate Storybook manifest
+        run: npx --yes chromatic@latest generate-manifest -o storybook-static
+
       - name: Publish to Chromatic
-        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors
+        run: npx --yes chromatic@latest -d storybook-static --exit-zero-on-changes --exit-zero-on-errors --project-token=chpt_69e340432498b91
+        
         env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          CHROMATIC_INDEX_URL: https://www.staging-chromatic.com
 
       - name: Upload Chromatic manifest
         uses: actions/upload-artifact@v7

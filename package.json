@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "storybook": "storybook dev",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic-staging": "EXPO_PUBLIC_STORYBOOK_ENABLED=true CHROMATIC_INDEX_URL=https://index.staging-chromatic.com npx chromatic@latest --project-token=chpt_69e340432498b91",
+    "chromatic-dev": "EXPO_PUBLIC_STORYBOOK_ENABLED=true CHROMATIC_INDEX_URL=https://index.dev-chromatic.com npx chromatic@latest --project-token=chpt_3db5ea7ecdb54eb --exit-zero-on-changes"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -40,15 +42,20 @@
     "react-native-worklets": "0.5.1"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^5.2.1",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-community/cli": "^20.1.0",
     "@storybook/addon-ondevice-actions": "^10.0.7",
     "@storybook/addon-ondevice-controls": "^10.0.7",
     "@storybook/react-native": "^10.0.7",
+    "@storybook/react-native-web-vite": "^10.4.6",
     "@types/react": "~19.1.0",
+    "chromatic": "^17.5.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
-    "typescript": "~5.9.2"
+    "storybook": "^10.4.6",
+    "typescript": "~5.9.2",
+    "vite": "^8.0.16"
   },
   "private": true
 }
