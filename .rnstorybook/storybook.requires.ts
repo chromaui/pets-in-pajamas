@@ -36,7 +36,11 @@ const annotations = [
 ];
 
 globalThis.STORIES = normalizedStories;
-
+globalThis.STORYBOOK_WEBSOCKET = {
+  host: 'react-native.capture.chromatic.com',
+  port: 7007,
+  secured: true,
+};
 
 module?.hot?.accept?.();
 
